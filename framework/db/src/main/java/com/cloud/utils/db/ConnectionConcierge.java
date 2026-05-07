@@ -44,7 +44,7 @@ import com.cloud.utils.mgmt.JmxUtil;
  * needs someone to keep that database connection from being garbage collected
  *
  */
-public class ConnectionConcierge {
+public class ConnectionConcierge implements AutoCloseable {
 
     protected Logger logger = LogManager.getLogger(getClass());
 
@@ -105,7 +105,7 @@ public class ConnectionConcierge {
     }
 
     @Override
-    protected void finalize() throws Exception {
+    public void close() {
         if (_conn != null) {
             release();
         }
