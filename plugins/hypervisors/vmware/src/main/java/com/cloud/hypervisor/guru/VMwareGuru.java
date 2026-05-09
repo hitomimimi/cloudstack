@@ -265,7 +265,7 @@ public class VMwareGuru extends HypervisorGuruBase implements HypervisorGuru, Co
             }
 
             if (!needDelegation && !(HypervisorType.VMware == srcData.getHypervisorType() || HypervisorType.VMware == destData.getHypervisorType())) {
-                return new Pair<Boolean, Long>(Boolean.FALSE, new Long(hostId));
+                return new Pair<>(Boolean.FALSE, hostId);
             }
 
             if (destData.getObjectType() == DataObjectType.VOLUME && destStoreTO.getRole() == DataStoreRole.Primary && srcData.getObjectType() == DataObjectType.TEMPLATE
@@ -293,7 +293,7 @@ public class VMwareGuru extends HypervisorGuruBase implements HypervisorGuru, Co
         }
 
         if (!needDelegation) {
-            return new Pair<Boolean, Long>(Boolean.FALSE, new Long(hostId));
+            return new Pair<>(Boolean.FALSE, hostId);
         }
         HostVO host = hostDao.findById(hostId);
         long dcId = host.getDataCenterId();
@@ -335,10 +335,10 @@ public class VMwareGuru extends HypervisorGuruBase implements HypervisorGuru, Co
                 cmd.setContextParam("searchexludefolders", _vmwareMgr.s_vmwareSearchExcludeFolder.value());
             }
 
-            return new Pair<Boolean, Long>(Boolean.TRUE, cmdTarget.first().getId());
+            return new Pair<>(Boolean.TRUE, cmdTarget.first().getId());
 
         }
-        return new Pair<Boolean, Long>(Boolean.FALSE, new Long(hostId));
+        return new Pair<>(Boolean.FALSE, hostId);
     }
 
     private boolean parallelExecutionAllowed(DataTO srcData, DataTO destData, DataStoreTO srcStoreTO, DataStoreTO destStoreTO) {

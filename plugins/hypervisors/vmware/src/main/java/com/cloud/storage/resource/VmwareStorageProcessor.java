@@ -717,7 +717,7 @@ public class VmwareStorageProcessor implements StorageProcessor {
             }
 
             newTemplate.setDeployAsIsConfiguration(configurationId);
-            newTemplate.setSize((vmInfo != null)? vmInfo.second() : new Long(0));
+            newTemplate.setSize((vmInfo != null)? vmInfo.second() : 0L);
 
             return new CopyCmdAnswer(newTemplate);
         } catch (Throwable e) {
