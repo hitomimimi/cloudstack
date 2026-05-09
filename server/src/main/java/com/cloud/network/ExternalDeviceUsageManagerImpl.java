@@ -397,7 +397,7 @@ public class ExternalDeviceUsageManagerImpl extends ManagerBase implements Exter
                 for (DomainRouterVO domainRouter : domainRoutersInZone) {
                     long accountId = domainRouter.getAccountId();
 
-                    if (accountsProcessed.contains(new Long(accountId))) {
+                    if (accountsProcessed.contains(Long.valueOf(accountId))) {
                         if (logger.isTraceEnabled()) {
                             logger.trace("Networks for Account " + accountId + " are already processed for external network usage, so skipping usage check.");
                         }
@@ -438,7 +438,7 @@ public class ExternalDeviceUsageManagerImpl extends ManagerBase implements Exter
                         if (fwDeviceVO != null) {
                             externalFirewall = _hostDao.findById(fwDeviceVO.getHostId());
                             if (externalFirewall != null) {
-                                Long fwDeviceId = new Long(externalFirewall.getId());
+                                Long fwDeviceId = Long.valueOf(externalFirewall.getId());
                                 if (!fwDeviceUsageAnswerMap.containsKey(fwDeviceId)) {
                                     try {
                                         ExternalNetworkResourceUsageCommand cmd = new ExternalNetworkResourceUsageCommand();
@@ -473,7 +473,7 @@ public class ExternalDeviceUsageManagerImpl extends ManagerBase implements Exter
                                 externalLoadBalancer = _hostDao.findById(lbDeviceVO.getHostId());
                             }
                             if (externalLoadBalancer != null) {
-                                Long lbDeviceId = new Long(externalLoadBalancer.getId());
+                                Long lbDeviceId = Long.valueOf(externalLoadBalancer.getId());
                                 if (!lbDeviceUsageAnswerMap.containsKey(lbDeviceId)) {
                                     try {
                                         ExternalNetworkResourceUsageCommand cmd = new ExternalNetworkResourceUsageCommand(network.getId());
@@ -515,7 +515,7 @@ public class ExternalDeviceUsageManagerImpl extends ManagerBase implements Exter
                         manageStatsEntries(false, accountId, zoneId, network, externalFirewall, firewallAnswer, externalLoadBalancer, lbAnswer);
                     }
 
-                    accountsProcessed.add(new Long(accountId));
+                    accountsProcessed.add(Long.valueOf(accountId));
                 }
             }
         }

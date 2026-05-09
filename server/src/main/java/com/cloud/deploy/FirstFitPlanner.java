@@ -225,7 +225,7 @@ public class FirstFitPlanner extends AdapterBase implements DeploymentClusterPla
                 uniqueTags = (long) 0;
                 List<Long> hostList = capacityDao.listHostsWithEnoughCapacity(requiredCpu, requiredRam, clusterId, Host.Type.Routing.toString());
                 if (!hostList.isEmpty() && implicitHostTags.length > 0) {
-                    uniqueTags = new Long(hostTagsDao.getDistinctImplicitHostTags(hostList, implicitHostTags).size());
+                    uniqueTags = Long.valueOf(hostTagsDao.getDistinctImplicitHostTags(hostList, implicitHostTags).size());
                     uniqueTags = uniqueTags + getHostsByCapability(hostList, Host.HOST_UEFI_ENABLE);
                 }
                 UniqueTagsInClusterMap.put(clusterId, uniqueTags);
@@ -245,12 +245,12 @@ public class FirstFitPlanner extends AdapterBase implements DeploymentClusterPla
             Map<String, String> details = hostDetailsDao.findDetails(host);
             if (details.containsKey(Host.HOST_UEFI_ENABLE)) {
                 if (details.get(Host.HOST_UEFI_ENABLE).equalsIgnoreCase("Yes")) {
-                    return new Long(1);
+                    return Long.valueOf(1);
                 }
 
             }
         }
-        return new Long(0);
+        return Long.valueOf(0);
     }
 
     private List<Long> scanPodsForDestination(VirtualMachineProfile vmProfile, DeploymentPlan plan, ExcludeList avoid) {

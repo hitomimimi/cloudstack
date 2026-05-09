@@ -337,7 +337,7 @@ public class UsageServiceImpl extends ManagerBase implements UsageService, Manag
                 sc.addAnd("usageId", SearchCriteria.Op.EQ, usageDbId);
             } else if (!offeringExistsForNetworkOfferingType) {
                 // return an empty list if usageId was not found
-                return new Pair<List<? extends Usage>, Integer>(new ArrayList<Usage>(), new Integer(0));
+                return new Pair<List<? extends Usage>, Integer>(new ArrayList<Usage>(), Integer.valueOf(0));
             }
         }
 
@@ -348,7 +348,7 @@ public class UsageServiceImpl extends ManagerBase implements UsageService, Manag
             sc.addAnd("startDate", SearchCriteria.Op.BETWEEN, startDate, endDate);
             sc.addAnd("endDate", SearchCriteria.Op.BETWEEN, startDate, endDate);
         } else {
-            return new Pair<List<? extends Usage>, Integer>(new ArrayList<Usage>(), new Integer(0)); // return an empty list if we fail to validate the dates
+            return new Pair<List<? extends Usage>, Integer>(new ArrayList<Usage>(), Integer.valueOf(0)); // return an empty list if we fail to validate the dates
         }
 
         Pair<List<UsageVO>, Integer> usageRecords = null;

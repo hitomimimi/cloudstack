@@ -178,7 +178,7 @@ public class PodZoneConfig {
                 long cidrSize = rs.getLong("cidr_size");
                 Vector<Object> cidrPair = new Vector<Object>();
                 cidrPair.add(0, cidrAddress);
-                cidrPair.add(1, new Long(cidrSize));
+                cidrPair.add(1, Long.valueOf(cidrSize));
                 currentPodCidrSubnets.put(podId, cidrPair);
             }
         } catch (SQLException ex) {

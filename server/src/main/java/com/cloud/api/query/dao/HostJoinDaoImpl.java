@@ -250,9 +250,9 @@ public class HostJoinDaoImpl extends GenericDaoBase<HostJoinVO, Long> implements
                     cpuUsed = decimalFormat.format(cpuUtil) + "%";
                     hostResponse.setCpuUsed(cpuUsed);
                     hostResponse.setCpuAverageLoad(hostStats.getLoadAverage());
-                    hostResponse.setMemoryUsed((new Double(hostStats.getUsedMemory())).longValue());
-                    hostResponse.setNetworkKbsRead((new Double(hostStats.getNetworkReadKBs())).longValue());
-                    hostResponse.setNetworkKbsWrite((new Double(hostStats.getNetworkWriteKBs())).longValue());
+                    hostResponse.setMemoryUsed((Double.valueOf(hostStats.getUsedMemory())).longValue());
+                    hostResponse.setNetworkKbsRead((Double.valueOf(hostStats.getNetworkReadKBs())).longValue());
+                    hostResponse.setNetworkKbsWrite((Double.valueOf(hostStats.getNetworkWriteKBs())).longValue());
 
                 }
             }
@@ -262,7 +262,7 @@ public class HostJoinDaoImpl extends GenericDaoBase<HostJoinVO, Long> implements
                 if (hostDetails.containsKey(Host.HOST_UEFI_ENABLE)) {
                     hostResponse.setUefiCapability(Boolean.parseBoolean((String) hostDetails.get(Host.HOST_UEFI_ENABLE)));
                 } else {
-                    hostResponse.setUefiCapability(new Boolean(false));
+                    hostResponse.setUefiCapability(Boolean.valueOf(false));
                 }
             }
             if (details.contains(HostDetails.all) &&

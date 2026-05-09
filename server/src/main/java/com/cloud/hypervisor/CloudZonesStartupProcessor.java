@@ -101,7 +101,7 @@ public class CloudZonesStartupProcessor extends AdapterBase implements StartupCo
         long serverNetmaskNumeric = NetUtils.ip2Long(agentNetmask);//
         if (serverNetmaskNumeric > cidrNetmaskNumeric) {
             //update pod's cidrsize
-            int newCidrSize = new Long(NetUtils.getCidrSize(agentNetmask)).intValue();
+            int newCidrSize = Long.valueOf(NetUtils.getCidrSize(agentNetmask)).intValue();
             pod.setCidrSize(newCidrSize);
             _podDao.update(pod.getId(), pod);
         }

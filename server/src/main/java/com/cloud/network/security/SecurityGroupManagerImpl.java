@@ -394,7 +394,7 @@ public class SecurityGroupManagerImpl extends ManagerBase implements SecurityGro
         }
 
         if (delayMs == null) {
-            delayMs = new Long(100l);
+            delayMs = Long.valueOf(100l);
         }
 
         Collections.sort(affectedVms);

@@ -17,7 +17,7 @@
 package com.cloud.storage;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -507,7 +507,7 @@ public class VolumeApiServiceImpl extends ManagerBase implements VolumeApiServic
                 String protocol = UseHttpsToUpload.value() ? "https" : "http";
 
                 String url = ImageStoreUtil.generatePostUploadUrl(ssvmUrlDomain, ep.getPublicAddr(), vol.getUuid(),  protocol);
-                response.setPostURL(new URL(url));
+                response.setPostURL(URI.create(url).toURL());
 
                 // set the post url, this is used in the monitoring thread to determine the SSVM
                 VolumeDataStoreVO volumeStore = _volumeStoreDao.findByVolume(vol.getId());
@@ -978,7 +978,7 @@ public class VolumeApiServiceImpl extends ManagerBase implements VolumeApiServic
         return Transaction.execute(new TransactionCallback<VolumeVO>() {
             @Override
             public VolumeVO doInTransaction(TransactionStatus status) {
-                VolumeVO volume = new VolumeVO(userSpecifiedName, -1, -1, -1, -1, new Long(-1), null, null, provisioningType, 0, Volume.Type.DATADISK);
+                VolumeVO volume = new VolumeVO(userSpecifiedName, -1, -1, -1, -1, Long.valueOf(-1), null, null, provisioningType, 0, Volume.Type.DATADISK);
                 volume.setPoolId(null);
                 volume.setUuid(uuid);
                 volume.setDataCenterId(zoneId);
@@ -5276,20 +5276,20 @@ public class VolumeApiServiceImpl extends ManagerBase implements VolumeApiServic
     private Pair<JobInfo.Status, String> orchestrateAttachVolumeToVM(VmWorkAttachVolume work) throws Exception {
         Volume vol = orchestrateAttachVolumeToVM(work.getVmId(), work.getVolumeId(), work.getDeviceId());
 
-        return new Pair<JobInfo.Status, String>(JobInfo.Status.SUCCEEDED, _jobMgr.marshallResultObject(new Long(vol.getId())));
+        return new Pair<JobInfo.Status, String>(JobInfo.Status.SUCCEEDED, _jobMgr.marshallResultObject(Long.valueOf(vol.getId())));
     }
 
     @ReflectionUse
     private Pair<JobInfo.Status, String> orchestrateDetachVolumeFromVM(VmWorkDetachVolume work) throws Exception {
         Volume vol = orchestrateDetachVolumeFromVM(work.getVmId(), work.getVolumeId());
-        return new Pair<JobInfo.Status, String>(JobInfo.Status.SUCCEEDED, _jobMgr.marshallResultObject(new Long(vol.getId())));
+        return new Pair<JobInfo.Status, String>(JobInfo.Status.SUCCEEDED, _jobMgr.marshallResultObject(Long.valueOf(vol.getId())));
     }
 
     @ReflectionUse
     private Pair<JobInfo.Status, String> orchestrateResizeVolume(VmWorkResizeVolume work) throws Exception {
         Volume vol = orchestrateResizeVolume(work.getVolumeId(), work.getCurrentSize(), work.getNewSize(), work.getNewMinIops(), work.getNewMaxIops(), work.getNewHypervisorSnapshotReserve(),
                 work.getNewServiceOfferingId(), work.isShrinkOk());
-        return new Pair<JobInfo.Status, String>(JobInfo.Status.SUCCEEDED, _jobMgr.marshallResultObject(new Long(vol.getId())));
+        return new Pair<JobInfo.Status, String>(JobInfo.Status.SUCCEEDED, _jobMgr.marshallResultObject(Long.valueOf(vol.getId())));
     }
 
     @ReflectionUse

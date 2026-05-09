@@ -17,8 +17,8 @@
 package com.cloud.template;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -414,7 +414,7 @@ public class TemplateManagerImpl extends ManagerBase implements TemplateManager,
             String protocol = VolumeApiService.UseHttpsToUpload.value() ? "https" : "http";
 
             String url = ImageStoreUtil.generatePostUploadUrl(ssvmUrlDomain, firstCommand.getRemoteEndPoint(), firstCommand.getEntityUUID(), protocol);
-            response.setPostURL(new URL(url));
+            response.setPostURL(URI.create(url).toURL());
 
             // set the post url, this is used in the monitoring thread to determine the SSVM
             TemplateDataStoreVO templateStore = _tmplStoreDao.findByTemplate(firstCommand.getEntityId(), DataStoreRole.getRole(firstCommand.getDataToRole()));
@@ -830,7 +830,7 @@ public class TemplateManagerImpl extends ManagerBase implements TemplateManager,
         TemplateDataStoreVO srcTmpltStore = _tmplStoreDao.findByStoreTemplate(srcSecStore.getId(), tmpltId);
 
         _resourceLimitMgr.checkResourceLimit(account, ResourceType.template);
-        _resourceLimitMgr.checkResourceLimit(account, ResourceType.secondary_storage, new Long(srcTmpltStore.getSize()).longValue());
+        _resourceLimitMgr.checkResourceLimit(account, ResourceType.secondary_storage, Long.valueOf(srcTmpltStore.getSize()).longValue());
 
         // Event details
         String copyEventType;
@@ -1821,7 +1821,7 @@ public class TemplateManagerImpl extends ManagerBase implements TemplateManager,
                         // decrement resource count
                         if (accountId != null) {
                             _resourceLimitMgr.decrementResourceCount(accountId, ResourceType.template);
-                            _resourceLimitMgr.decrementResourceCount(accountId, ResourceType.secondary_storage, new Long(volumeFinal != null ? volumeFinal.getSize()
+                            _resourceLimitMgr.decrementResourceCount(accountId, ResourceType.secondary_storage, Long.valueOf(volumeFinal != null ? volumeFinal.getSize()
                                     : snapshotFinal.getSize()));
                         }
                     }
@@ -1973,7 +1973,7 @@ public class TemplateManagerImpl extends ManagerBase implements TemplateManager,
         }
 
         _resourceLimitMgr.checkResourceLimit(templateOwner, ResourceType.template);
-        _resourceLimitMgr.checkResourceLimit(templateOwner, ResourceType.secondary_storage, new Long(volume != null ? volume.getSize() : snapshot.getSize()).longValue());
+        _resourceLimitMgr.checkResourceLimit(templateOwner, ResourceType.secondary_storage, Long.valueOf(volume != null ? volume.getSize() : snapshot.getSize()).longValue());
 
         if (!isAdmin || featured == null) {
             featured = Boolean.FALSE;
@@ -2063,7 +2063,7 @@ public class TemplateManagerImpl extends ManagerBase implements TemplateManager,
 
             _resourceLimitMgr.incrementResourceCount(templateOwner.getId(), ResourceType.template);
             _resourceLimitMgr.incrementResourceCount(templateOwner.getId(), ResourceType.secondary_storage,
-                    new Long(volume != null ? volume.getSize() : snapshot.getSize()));
+                    Long.valueOf(volume != null ? volume.getSize() : snapshot.getSize()));
         }
 
         if (template != null) {

@@ -1286,7 +1286,7 @@ public class VMSnapshotManagerImpl extends MutualExclusiveIdsManagerBase impleme
     public Pair<JobInfo.Status, String> orchestrateCreateVMSnapshot(VmWorkCreateVMSnapshot work) throws Exception {
         VMSnapshot snapshot = orchestrateCreateVMSnapshot(work.getVmId(), work.getVmSnapshotId(), work.isQuiesceVm());
         return new Pair<JobInfo.Status, String>(JobInfo.Status.SUCCEEDED,
-                _jobMgr.marshallResultObject(new Long(snapshot.getId())));
+                _jobMgr.marshallResultObject(Long.valueOf(snapshot.getId())));
     }
 
     @ReflectionUse

@@ -412,7 +412,7 @@ public class SnapshotManagerImpl extends MutualExclusiveIdsManagerBase implement
     }
 
     public void updateVolumeSizeAndPrimaryStorageCount(VolumeVO volume, SnapshotVO snapshot) {
-        Long differenceBetweenVolumeAndSnapshotSize = new Long(volume.getSize() - snapshot.getSize());
+        Long differenceBetweenVolumeAndSnapshotSize = Long.valueOf(volume.getSize() - snapshot.getSize());
         if (differenceBetweenVolumeAndSnapshotSize != 0) {
             if (differenceBetweenVolumeAndSnapshotSize > 0) {
                 _resourceLimitMgr.decrementResourceCount(snapshot.getAccountId(), ResourceType.primary_storage, differenceBetweenVolumeAndSnapshotSize);
@@ -687,7 +687,7 @@ public class SnapshotManagerImpl extends MutualExclusiveIdsManagerBase implement
         } catch (Exception e) {
             logger.debug("Failed to backup snapshot from vm snapshot", e);
             _resourceLimitMgr.decrementResourceCount(snapshotOwnerId, ResourceType.snapshot);
-            _resourceLimitMgr.decrementResourceCount(snapshotOwnerId, ResourceType.secondary_storage, new Long(volume.getSize()));
+            _resourceLimitMgr.decrementResourceCount(snapshotOwnerId, ResourceType.secondary_storage, Long.valueOf(volume.getSize()));
             throw new CloudRuntimeException("Failed to backup snapshot from vm snapshot", e);
         } finally {
             if (snapshotOnPrimaryStore != null) {
@@ -921,7 +921,7 @@ public class SnapshotManagerImpl extends MutualExclusiveIdsManagerBase implement
             }
             for (SnapshotDataStoreVO snapshotStoreRef : snapshotStoreRefs) {
                 if (ObjectInDataStoreStateMachine.State.Ready.equals(snapshotStoreRef.getState()) && !DataStoreRole.Primary.equals(snapshotStoreRef.getRole())) {
-                    _resourceLimitMgr.decrementResourceCount(snapshotCheck.getAccountId(), ResourceType.secondary_storage, new Long(snapshotStoreRef.getPhysicalSize()));
+                    _resourceLimitMgr.decrementResourceCount(snapshotCheck.getAccountId(), ResourceType.secondary_storage, Long.valueOf(snapshotStoreRef.getPhysicalSize()));
                 }
             }
         }
@@ -935,7 +935,7 @@ public class SnapshotManagerImpl extends MutualExclusiveIdsManagerBase implement
         }
         for (SnapshotDataStoreVO snapshotStoreRef : snapshotStoreRefs) {
             if (ObjectInDataStoreStateMachine.State.Ready.equals(snapshotStoreRef.getState()) && !DataStoreRole.Primary.equals(snapshotStoreRef.getRole())) {
-                _resourceLimitMgr.decrementResourceCount(snapshotCheck.getAccountId(), ResourceType.secondary_storage, new Long(snapshotStoreRef.getPhysicalSize()));
+                _resourceLimitMgr.decrementResourceCount(snapshotCheck.getAccountId(), ResourceType.secondary_storage, Long.valueOf(snapshotStoreRef.getPhysicalSize()));
             }
         }
 
@@ -1118,7 +1118,7 @@ public class SnapshotManagerImpl extends MutualExclusiveIdsManagerBase implement
                     if (Type.MANUAL == snapshot.getRecurringType()) {
                         _resourceLimitMgr.decrementResourceCount(accountId, ResourceType.snapshot);
                         for (SnapshotDataStoreVO snapshotStoreRef : snapshotStoreRefs) {
-                            _resourceLimitMgr.decrementResourceCount(accountId, ResourceType.secondary_storage, new Long(snapshotStoreRef.getPhysicalSize()));
+                            _resourceLimitMgr.decrementResourceCount(accountId, ResourceType.secondary_storage, Long.valueOf(snapshotStoreRef.getPhysicalSize()));
                         }
                     }
 
@@ -1689,7 +1689,7 @@ public class SnapshotManagerImpl extends MutualExclusiveIdsManagerBase implement
                         snapshotStoreRef.getPhysicalSize(), volume.getSize(), snapshot.getClass().getName(), snapshot.getUuid());
 
                 // Correct the resource count of snapshot in case of delta snapshots.
-                _resourceLimitMgr.decrementResourceCount(snapshotOwner.getId(), ResourceType.secondary_storage, new Long(volume.getSize() - snapshotStoreRef.getPhysicalSize()));
+                _resourceLimitMgr.decrementResourceCount(snapshotOwner.getId(), ResourceType.secondary_storage, Long.valueOf(volume.getSize() - snapshotStoreRef.getPhysicalSize()));
 
                 if (!payload.getAsyncBackup()) {
                     if (backupSnapToSecondary) {
@@ -1707,14 +1707,14 @@ public class SnapshotManagerImpl extends MutualExclusiveIdsManagerBase implement
                 logger.debug("Failed to create snapshot" + cre.getLocalizedMessage());
             }
             _resourceLimitMgr.decrementResourceCount(snapshotOwner.getId(), ResourceType.snapshot);
-            _resourceLimitMgr.decrementResourceCount(snapshotOwner.getId(), ResourceType.secondary_storage, new Long(volume.getSize()));
+            _resourceLimitMgr.decrementResourceCount(snapshotOwner.getId(), ResourceType.secondary_storage, Long.valueOf(volume.getSize()));
             throw cre;
         } catch (Exception e) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Failed to create snapshot", e);
             }
             _resourceLimitMgr.decrementResourceCount(snapshotOwner.getId(), ResourceType.snapshot);
-            _resourceLimitMgr.decrementResourceCount(snapshotOwner.getId(), ResourceType.secondary_storage, new Long(volume.getSize()));
+            _resourceLimitMgr.decrementResourceCount(snapshotOwner.getId(), ResourceType.secondary_storage, Long.valueOf(volume.getSize()));
             throw new CloudRuntimeException("Failed to create snapshot", e);
         }
         return snapshot;

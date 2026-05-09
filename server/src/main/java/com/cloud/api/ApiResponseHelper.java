@@ -791,7 +791,7 @@ public class ApiResponseHelper implements ResponseGenerator {
 
         if (mapCapabilities != null) {
             String value = mapCapabilities.get(DataStoreCapabilities.STORAGE_SYSTEM_SNAPSHOT.toString());
-            Boolean supportsStorageSystemSnapshots = new Boolean(value);
+            Boolean supportsStorageSystemSnapshots = Boolean.valueOf(value);
 
             if (supportsStorageSystemSnapshots) {
                 return DataStoreRole.Primary;
@@ -928,7 +928,7 @@ public class ApiResponseHelper implements ResponseGenerator {
         try {
             Long podId = ApiDBUtils.getPodIdForVlan(vlan.getId());
 
-            VlanIpRangeResponse vlanResponse = subClass.newInstance();
+            VlanIpRangeResponse vlanResponse = subClass.getDeclaredConstructor().newInstance();
             vlanResponse.setId(vlan.getUuid());
             if (vlan.getVlanType() != null) {
                 vlanResponse.setForVirtualNetwork(vlan.getVlanType().equals(VlanType.VirtualNetwork));
@@ -1010,7 +1010,7 @@ public class ApiResponseHelper implements ResponseGenerator {
             vlanResponse.setProvider(getProviderFromVlanDetailKey(vlan));
             vlanResponse.setObjectName("vlan");
             return vlanResponse;
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (ReflectiveOperationException e) {
             throw new CloudRuntimeException("Failed to create Vlan IP Range response", e);
         }
     }
