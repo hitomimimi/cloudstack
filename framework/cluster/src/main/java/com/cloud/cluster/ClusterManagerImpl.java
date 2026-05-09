@@ -1146,6 +1146,11 @@ public class ClusterManagerImpl extends ManagerBase implements ClusterManager, C
         } catch (final InterruptedException ignored) {
         }
 
+        if (_heartbeatConnection != null) {
+            _heartbeatConnection.close();
+            _heartbeatConnection = null;
+        }
+
         if (logger.isInfoEnabled()) {
             logger.info("Cluster manager is stopped");
         }
