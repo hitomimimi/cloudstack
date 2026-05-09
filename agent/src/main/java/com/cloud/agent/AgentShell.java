@@ -59,7 +59,7 @@ public class AgentShell implements IAgentShell, Daemon {
     protected static Logger LOGGER = LogManager.getLogger(AgentShell.class);
 
     private final Properties _properties = new Properties();
-    private final Map<String, Object> _cmdLineProperties = new HashMap<String, Object>();
+    private final Map<String, Object> _cmdLineProperties = new HashMap<>();
     private StorageComponent _storage;
     private BackoffAlgorithm _backoff;
     private String _version;
@@ -76,7 +76,7 @@ public class AgentShell implements IAgentShell, Daemon {
     private int _nextAgentId = 1;
     private volatile boolean _exit = false;
     private int _pingRetries;
-    private final List<Agent> _agents = new ArrayList<Agent>();
+    private final List<Agent> _agents = new ArrayList<>();
     private String connectedHost;
     private Long preferredHostCheckInterval;
     private boolean connectionTransfer = false;

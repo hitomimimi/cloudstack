@@ -94,19 +94,19 @@ public class ConsoleProxyResource extends ServerResourceBase implements ServerRe
 
     @Override
     public Answer executeRequest(final Command cmd) {
-        if (cmd instanceof CheckConsoleProxyLoadCommand) {
-            return execute((CheckConsoleProxyLoadCommand)cmd);
-        } else if (cmd instanceof WatchConsoleProxyLoadCommand) {
-            return execute((WatchConsoleProxyLoadCommand)cmd);
-        } else if (cmd instanceof ReadyCommand) {
+        if (cmd instanceof CheckConsoleProxyLoadCommand checkLoadCmd) {
+            return execute(checkLoadCmd);
+        } else if (cmd instanceof WatchConsoleProxyLoadCommand watchLoadCmd) {
+            return execute(watchLoadCmd);
+        } else if (cmd instanceof ReadyCommand readyCmd) {
             logger.info("Receive ReadyCommand, response with ReadyAnswer");
-            return new ReadyAnswer((ReadyCommand)cmd);
-        } else if (cmd instanceof CheckHealthCommand) {
-            return new CheckHealthAnswer((CheckHealthCommand)cmd, true);
-        } else if (cmd instanceof StartConsoleProxyAgentHttpHandlerCommand) {
-            return execute((StartConsoleProxyAgentHttpHandlerCommand) cmd);
-        } else if (cmd instanceof AllowConsoleAccessCommand) {
-            return execute((AllowConsoleAccessCommand) cmd);
+            return new ReadyAnswer(readyCmd);
+        } else if (cmd instanceof CheckHealthCommand healthCmd) {
+            return new CheckHealthAnswer(healthCmd, true);
+        } else if (cmd instanceof StartConsoleProxyAgentHttpHandlerCommand httpHandlerCmd) {
+            return execute(httpHandlerCmd);
+        } else if (cmd instanceof AllowConsoleAccessCommand accessCmd) {
+            return execute(accessCmd);
         } else {
             return Answer.createUnsupportedCommandAnswer(cmd);
         }
@@ -153,8 +153,8 @@ public class ConsoleProxyResource extends ServerResourceBase implements ServerRe
     private Answer executeProxyLoadScan(final Command cmd, final long proxyVmId, final String proxyVmName, final String proxyManagementIp, final int cmdPort) {
         String result = null;
 
-        final StringBuffer sb = new StringBuffer();
-        sb.append("http://").append(proxyManagementIp).append(":" + cmdPort).append("/cmd/getstatus");
+        final StringBuilder sb = new StringBuilder();
+        sb.append("http://").append(proxyManagementIp).append(":").append(cmdPort).append("/cmd/getstatus");
 
         boolean success = true;
         try {

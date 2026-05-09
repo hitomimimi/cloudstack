@@ -35,7 +35,7 @@ public class MockVmMgr implements VmMgr {
     private static final int DEFAULT_DOM0_MEM_MB = 128;
     private static final Random randSeed = new Random();
 
-    private final Map<String, MockVm> vms = new HashMap<String, MockVm>();
+    private final Map<String, MockVm> vms = new HashMap<>();
     private long vncPortMap = 0;
 
     private Map<String, Object> _params = null;
@@ -45,7 +45,7 @@ public class MockVmMgr implements VmMgr {
 
     @Override
     public Set<String> getCurrentVMs() {
-        HashSet<String> vmNameSet = new HashSet<String>();
+        HashSet<String> vmNameSet = new HashSet<>();
         synchronized (this) {
             for (String vmName : vms.keySet())
                 vmNameSet.add(vmName);
@@ -58,12 +58,12 @@ public class MockVmMgr implements VmMgr {
         String publicMac, String publicMask, int cpuCount, int cpuUtilization, long ramSize, String localPath, String vncPassword) {
 
         if (logger.isInfoEnabled()) {
-            StringBuffer sb = new StringBuffer();
-            sb.append("Start VM. name: " + vmName + ", vnet: " + vnetId + ", dns: " + dns);
-            sb.append(", privateIP: " + privateIP + ", privateMac: " + privateMac + ", privateMask: " + privateMask);
-            sb.append(", publicIP: " + publicIP + ", publicMac: " + publicMac + ", publicMask: " + publicMask);
-            sb.append(", cpu count: " + cpuCount + ", cpuUtilization: " + cpuUtilization + ", ram : " + ramSize);
-            sb.append(", localPath: " + localPath);
+            StringBuilder sb = new StringBuilder();
+            sb.append("Start VM. name: ").append(vmName).append(", vnet: ").append(vnetId).append(", dns: ").append(dns);
+            sb.append(", privateIP: ").append(privateIP).append(", privateMac: ").append(privateMac).append(", privateMask: ").append(privateMask);
+            sb.append(", publicIP: ").append(publicIP).append(", publicMac: ").append(publicMac).append(", publicMask: ").append(publicMask);
+            sb.append(", cpu count: ").append(cpuCount).append(", cpuUtilization: ").append(cpuUtilization).append(", ram : ").append(ramSize);
+            sb.append(", localPath: ").append(localPath);
             logger.info(sb.toString());
         }
 
@@ -151,7 +151,7 @@ public class MockVmMgr implements VmMgr {
 
     @Override
     public Map<String, State> getVmStates() {
-        Map<String, State> states = new HashMap<String, State>();
+        Map<String, State> states = new HashMap<>();
 
         synchronized (this) {
             for (MockVm vm : vms.values()) {
@@ -228,7 +228,7 @@ public class MockVmMgr implements VmMgr {
                 return vm.getVncPort();
         }
 
-        return new Integer(-1);
+        return -1;
     }
 
     public int allocVncPort() {

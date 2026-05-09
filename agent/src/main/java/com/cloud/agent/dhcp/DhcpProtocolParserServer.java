@@ -38,7 +38,7 @@ public class DhcpProtocolParserServer extends Thread {
     protected boolean _running = false;
 
     public DhcpProtocolParserServer(int workers) {
-        _executor = new ThreadPoolExecutor(workers, 10 * workers, 1, TimeUnit.DAYS, new LinkedBlockingQueue<Runnable>(), new NamedThreadFactory("DhcpListener"));
+        _executor = new ThreadPoolExecutor(workers, 10 * workers, 1, TimeUnit.DAYS, new LinkedBlockingQueue<>(), new NamedThreadFactory("DhcpListener"));
         _running = true;
     }
 

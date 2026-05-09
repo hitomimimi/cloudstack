@@ -54,8 +54,8 @@ public class DummyResource implements ServerResource {
 
     @Override
     public Answer executeRequest(Command cmd) {
-        if (cmd instanceof CheckNetworkCommand) {
-            return new CheckNetworkAnswer((CheckNetworkCommand)cmd, true, null);
+        if (cmd instanceof CheckNetworkCommand checkNetCmd) {
+            return new CheckNetworkAnswer(checkNetCmd, true, null);
         }
         System.out.println("Received Command: " + cmd.toString());
         Answer answer = new Answer(cmd, !_negative, "response");
@@ -89,7 +89,7 @@ public class DummyResource implements ServerResource {
     }
 
     protected List<Object> getHostInfo() {
-        final ArrayList<Object> info = new ArrayList<Object>();
+        final ArrayList<Object> info = new ArrayList<>();
         long speed = getConfiguredProperty("cpuspeed", 4000L);
         long cpus = getConfiguredProperty("cpus", 4L);
         long ram = getConfiguredProperty("memory", 16000L * 1024L * 1024L);
@@ -119,7 +119,7 @@ public class DummyResource implements ServerResource {
     }
 
     private Map<String, String> getVersionStrings() {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         String hostOs = (String)_params.get("Host.OS");
         String hostOsVer = (String)_params.get("Host.OS.Version");
         String hostOsKernVer = (String)_params.get("Host.OS.Kernel.Version");
