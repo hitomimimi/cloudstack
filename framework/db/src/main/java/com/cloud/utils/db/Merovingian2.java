@@ -410,6 +410,12 @@ public class Merovingian2 extends StandardMBean implements MerovingianMBean {
         }
     }
 
+    public void destroy() {
+        if (_concierge != null) {
+            _concierge.close();
+        }
+    }
+
     protected static class Count {
         public int count = 0;
     }
