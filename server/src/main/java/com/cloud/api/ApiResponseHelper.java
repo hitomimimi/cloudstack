@@ -1010,7 +1010,7 @@ public class ApiResponseHelper implements ResponseGenerator {
             vlanResponse.setProvider(getProviderFromVlanDetailKey(vlan));
             vlanResponse.setObjectName("vlan");
             return vlanResponse;
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (ReflectiveOperationException e) {
             throw new CloudRuntimeException("Failed to create Vlan IP Range response", e);
         }
     }
