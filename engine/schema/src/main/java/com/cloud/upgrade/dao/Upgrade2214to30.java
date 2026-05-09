@@ -1016,7 +1016,7 @@ public class Upgrade2214to30 extends Upgrade30xBase {
             Boolean isuserconcentrated = false;
             if (rs.next()) {
                 String value = rs.getString(1);
-                isuserconcentrated = new Boolean(value);
+                isuserconcentrated = Boolean.valueOf(value);
             }
             rs.close();
             pstmt.close();

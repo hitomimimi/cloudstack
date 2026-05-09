@@ -268,9 +268,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
 
     @Override
     public int hashCode() {
-        Long tid = new Long(templateId);
-        Long hid = new Long(dataStoreId);
-        return tid.hashCode() + hid.hashCode();
+        return Long.hashCode(templateId) + Long.hashCode(dataStoreId);
     }
 
     public void setSize(Long size) {

@@ -1909,7 +1909,7 @@ public class Upgrade218to22 extends DbUpgradeAbstractImpl {
             Long templateId = null;
             String tId = vmEventParams.getProperty("tId");
             if (tId != null) {
-                templateId = new Long(Long.parseLong(tId));
+                templateId = Long.parseLong(tId);
             }
 
             usageEvent = new UsageEventVO(EventTypes.EVENT_VM_CREATE, event.getAccountId(), zoneId, vmId, vmEventParams.getProperty("vmName"), soId, templateId, "");

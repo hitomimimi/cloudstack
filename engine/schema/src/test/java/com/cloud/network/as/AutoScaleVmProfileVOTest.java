@@ -86,19 +86,19 @@ public class AutoScaleVmProfileVOTest {
     @Test
     public void testProperties() {
         AutoScaleVmProfileVO profile = new AutoScaleVmProfileVO(zoneId, domainId, accountId, serviceOfferingId, templateId, null, null, userdata, null, autoScaleUserId);
-        Assert.assertEquals(new Long(zoneId), profile.getZoneId());
+        Assert.assertEquals(Long.valueOf(zoneId), profile.getZoneId());
         Assert.assertEquals(domainId, profile.getDomainId());
         Assert.assertEquals(accountId, profile.getAccountId());
-        Assert.assertEquals(new Long(serviceOfferingId), profile.getServiceOfferingId());
-        Assert.assertEquals(new Long(templateId), profile.getTemplateId());
+        Assert.assertEquals(Long.valueOf(serviceOfferingId), profile.getServiceOfferingId());
+        Assert.assertEquals(Long.valueOf(templateId), profile.getTemplateId());
         Assert.assertEquals(userdata, profile.getUserData());
-        Assert.assertEquals(new Long(autoScaleUserId), profile.getAutoScaleUserId());
+        Assert.assertEquals(Long.valueOf(autoScaleUserId), profile.getAutoScaleUserId());
 
         profile.setUserData(userdataNew);
         profile.setUserDataId(userdataId);
         profile.setUserDataDetails(userdataDetails);
         Assert.assertEquals(userdataNew, profile.getUserData());
-        Assert.assertEquals(new Long(userdataId), profile.getUserDataId());
+        Assert.assertEquals(Long.valueOf(userdataId), profile.getUserDataId());
         Assert.assertEquals(userdataDetails, profile.getUserDataDetails());
     }
 }

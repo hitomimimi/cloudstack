@@ -254,9 +254,7 @@ public class VMTemplateStoragePoolVO implements VMTemplateStorageResourceAssoc, 
 
     @Override
     public int hashCode() {
-        Long tid = new Long(templateId);
-        Long hid = new Long(poolId);
-        return tid.hashCode() + hid.hashCode();
+        return Long.hashCode(templateId) + Long.hashCode(poolId);
     }
 
     @Override

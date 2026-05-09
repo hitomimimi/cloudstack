@@ -94,7 +94,7 @@ public class HostPodDaoImpl extends GenericDaoBase<HostPodVO, Long> implements H
                 long cidrSize = rs.getLong("cidr_size");
                 List<Object> cidrPair = new ArrayList<Object>();
                 cidrPair.add(0, cidrAddress);
-                cidrPair.add(1, new Long(cidrSize));
+                cidrPair.add(1, Long.valueOf(cidrSize));
                 currentPodCidrSubnets.put(podId, cidrPair);
             }
         } catch (SQLException ex) {

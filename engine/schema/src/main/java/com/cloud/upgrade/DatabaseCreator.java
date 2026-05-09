@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.DriverManager;
@@ -215,7 +216,7 @@ public class DatabaseCreator {
                         System.err.println("The class must be of SystemIntegrityChecker: " + clazz.getName());
                         System.exit(1);
                     }
-                    SystemIntegrityChecker checker = (SystemIntegrityChecker)clazz.newInstance();
+                    SystemIntegrityChecker checker = (SystemIntegrityChecker)clazz.getDeclaredConstructor().newInstance();
                     checker.check();
                 } catch (ClassNotFoundException e) {
                     System.err.println("Unable to find " + upgradeClass + ": " + e.getMessage());
@@ -225,6 +226,9 @@ public class DatabaseCreator {
                     System.exit(1);
                 } catch (IllegalAccessException e) {
                     System.err.println("Unable to access " + upgradeClass + ": " + e.getMessage());
+                    System.exit(1);
+                } catch (NoSuchMethodException | InvocationTargetException e) {
+                    System.err.println("Unable to invoke constructor of " + upgradeClass + ": " + e.getMessage());
                     System.exit(1);
                 }
 
