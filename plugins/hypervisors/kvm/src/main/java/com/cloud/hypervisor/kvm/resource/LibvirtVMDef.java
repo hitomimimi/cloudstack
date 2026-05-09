@@ -17,6 +17,7 @@
 package com.cloud.hypervisor.kvm.resource;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -2176,7 +2177,7 @@ public class LibvirtVMDef {
                 try {
                     field = fieldClass.getDeclaredConstructor().newInstance();
                     customNodes.put(field.getClass().getName(), field);
-                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | java.lang.reflect.InvocationTargetException e) {
+                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                     LOGGER.debug("No default constructor available in class " + fieldClass.getName() + ", ignoring exception", e);
                 }
             }

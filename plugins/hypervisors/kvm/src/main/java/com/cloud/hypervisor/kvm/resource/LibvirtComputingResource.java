@@ -51,6 +51,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -1765,7 +1766,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
             throw new ConfigurationException("Unable to instantiate class for libvirt.vif.driver " + e);
         } catch (final NoSuchMethodException e) {
             throw new ConfigurationException("No default constructor found for libvirt.vif.driver " + e);
-        } catch (final java.lang.reflect.InvocationTargetException e) {
+        } catch (final InvocationTargetException e) {
             throw new ConfigurationException("Unable to instantiate class for libvirt.vif.driver " + e);
         }
         return vifDriver;
