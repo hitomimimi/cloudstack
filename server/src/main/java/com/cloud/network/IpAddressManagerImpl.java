@@ -1497,7 +1497,7 @@ public class IpAddressManagerImpl extends ManagerBase implements IpAddressManage
                     List<PortableIpVO> portableIpVOs = _portableIpDao.listByRegionIdAndState(1, PortableIp.State.Free);
                     if (portableIpVOs == null || portableIpVOs.isEmpty()) {
                         InsufficientAddressCapacityException ex = new InsufficientAddressCapacityException("Unable to find available portable IP addresses", Region.class,
-                                new Long(1));
+                                Long.valueOf(1));
                         throw ex;
                     }
 

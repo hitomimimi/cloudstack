@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class ExternalIpAddressAllocator extends AdapterBase implements IpAddrAll
 
         BufferedReader in = null;
         try {
-            URL url = new URL(urlString);
+            URL url = URI.create(urlString).toURL();
             URLConnection conn = url.openConnection();
             conn.setReadTimeout(30000);
 
@@ -102,7 +103,7 @@ public class ExternalIpAddressAllocator extends AdapterBase implements IpAddrAll
         logger.debug("releaseIP:" + urlString);
         BufferedReader in = null;
         try {
-            URL url = new URL(urlString);
+            URL url = URI.create(urlString).toURL();
             URLConnection conn = url.openConnection();
             conn.setReadTimeout(30000);
 

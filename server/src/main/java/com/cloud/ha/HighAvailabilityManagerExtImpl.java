@@ -48,7 +48,7 @@ public class HighAvailabilityManagerExtImpl extends HighAvailabilityManagerImpl 
     public boolean start() {
         super.start();
 
-        boolean enableUsage = new Boolean(configDao.getValue("enable.usage.server"));
+        boolean enableUsage = Boolean.valueOf(configDao.getValue("enable.usage.server"));
 
         //By default, usage is enabled for production
         //Devs might override this value to disable usage in their setup
@@ -90,7 +90,7 @@ public class HighAvailabilityManagerExtImpl extends HighAvailabilityManagerImpl 
                 }
 
                 if (!isRunning) {
-                    _alertMgr.sendAlert(AlertManager.AlertType.ALERT_TYPE_USAGE_SERVER, 0, new Long(0), "No usage server process running",
+                    _alertMgr.sendAlert(AlertManager.AlertType.ALERT_TYPE_USAGE_SERVER, 0, Long.valueOf(0), "No usage server process running",
                         "No usage server process has been detected, some attention is required");
                 } else {
                     _alertMgr.clearAlert(AlertManager.AlertType.ALERT_TYPE_USAGE_SERVER, 0, 0);

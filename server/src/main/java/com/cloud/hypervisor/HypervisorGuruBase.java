@@ -395,7 +395,7 @@ public abstract class HypervisorGuruBase extends AdapterBase implements Hypervis
      * Side note: it seems that the 'hostId' received here is normally the ID of the SSVM that has an entry at the host table. Therefore, this methods gives the opportunity to change from the SSVM to a real host to execute a command.
      */
     public Pair<Boolean, Long> getCommandHostDelegation(long hostId, Command cmd) {
-        return new Pair<Boolean, Long>(Boolean.FALSE, new Long(hostId));
+        return new Pair<Boolean, Long>(Boolean.FALSE, Long.valueOf(hostId));
     }
 
     @Override

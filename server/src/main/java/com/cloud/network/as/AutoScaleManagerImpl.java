@@ -2030,7 +2030,7 @@ public class AutoScaleManagerImpl extends ManagerBase implements AutoScaleManage
                 }
             }
         }
-        lstVmId.add(new Long(vmId));
+        lstVmId.add(Long.valueOf(vmId));
         try {
             return loadBalancingRulesService.assignToLoadBalancer(lbId, lstVmId, new HashMap<>(), true);
         } catch (CloudRuntimeException ex) {

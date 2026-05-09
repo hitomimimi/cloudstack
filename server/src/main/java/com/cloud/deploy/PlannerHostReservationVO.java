@@ -97,7 +97,7 @@ public class PlannerHostReservationVO implements InternalIdentity {
     }
 
     public void setPodId(long podId) {
-        this.podId = new Long(podId);
+        this.podId = Long.valueOf(podId);
     }
 
     public Long getClusterId() {
@@ -105,7 +105,7 @@ public class PlannerHostReservationVO implements InternalIdentity {
     }
 
     public void setClusterId(long clusterId) {
-        this.clusterId = new Long(clusterId);
+        this.clusterId = Long.valueOf(clusterId);
     }
 
     public PlannerResourceUsage getResourceUsage() {

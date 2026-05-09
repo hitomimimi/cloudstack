@@ -117,7 +117,7 @@ public class SecurityGroupListener implements Listener {
         }
 
         if (affectedVms.size() > 0) {
-            _securityGroupManager.scheduleRulesetUpdateToHosts(affectedVms, false, new Long(10 * 1000l));
+            _securityGroupManager.scheduleRulesetUpdateToHosts(affectedVms, false, Long.valueOf(10 * 1000l));
         }
 
         return true;
