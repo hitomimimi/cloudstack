@@ -117,7 +117,7 @@
         <!-- Optional dependencies for using Spock -->
         <dependency> <!-- enables mocking of classes (in addition to interfaces) -->
             <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
+            <artifactId>cglib</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
