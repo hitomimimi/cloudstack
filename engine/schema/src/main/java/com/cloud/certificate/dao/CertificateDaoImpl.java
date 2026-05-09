@@ -41,7 +41,7 @@ public class CertificateDaoImpl extends GenericDaoBase<CertificateVO, Long> impl
             return cert.getId();
         } catch (Exception e) {
             logger.warn("Unable to read the certificate: " + e);
-            return new Long(0);
+            return 0L;
         }
     }
 }

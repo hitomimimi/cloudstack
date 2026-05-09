@@ -99,7 +99,7 @@ public class VMInstanceVO implements VirtualMachine, FiniteStateObject<State, Vi
     protected String instanceName;
 
     @Column(name = "vm_template_id", updatable = true, nullable = true, length = 17)
-    protected Long templateId = new Long(-1);
+    protected Long templateId = -1L;
 
     @Column(name = "guest_os_id", nullable = false, length = 17)
     protected long guestOSId;

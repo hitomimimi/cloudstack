@@ -83,7 +83,7 @@ public class ResourceLimitDaoImpl extends GenericDaoBase<ResourceLimitVO, Long> 
         if (max != null)
             limit.setMax(max);
         else
-            limit.setMax(new Long(-1));
+            limit.setMax(-1L);
         return update(id, limit);
     }
 

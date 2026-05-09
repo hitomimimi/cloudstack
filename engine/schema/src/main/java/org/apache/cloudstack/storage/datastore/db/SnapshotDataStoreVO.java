@@ -207,9 +207,7 @@ public class SnapshotDataStoreVO implements StateObject<ObjectInDataStoreStateMa
 
     @Override
     public int hashCode() {
-        Long tid = new Long(snapshotId);
-        Long hid = new Long(dataStoreId);
-        return tid.hashCode() + hid.hashCode();
+        return Long.hashCode(snapshotId) + Long.hashCode(dataStoreId);
     }
 
     public void setSize(long size) {

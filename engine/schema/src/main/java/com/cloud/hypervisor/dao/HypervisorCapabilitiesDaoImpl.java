@@ -89,7 +89,7 @@ public class HypervisorCapabilitiesDaoImpl extends GenericDaoBase<HypervisorCapa
 
     @Override
     public Long getMaxGuestsLimit(HypervisorType hypervisorType, String hypervisorVersion) {
-        Long defaultLimit = new Long(50);
+        Long defaultLimit = 50L;
         HypervisorCapabilitiesVO result = getCapabilities(hypervisorType, hypervisorVersion);
         if (result == null) {
             return defaultLimit;

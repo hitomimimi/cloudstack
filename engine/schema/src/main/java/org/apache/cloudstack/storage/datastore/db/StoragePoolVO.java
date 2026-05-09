@@ -377,7 +377,7 @@ public class StoragePoolVO implements StoragePool {
 
     @Override
     public int hashCode() {
-        return new Long(id).hashCode();
+        return Long.hashCode(id);
     }
 
     @Override

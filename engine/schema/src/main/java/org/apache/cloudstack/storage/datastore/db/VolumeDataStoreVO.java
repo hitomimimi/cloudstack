@@ -264,9 +264,7 @@ public class VolumeDataStoreVO implements StateObject<ObjectInDataStoreStateMach
 
     @Override
     public int hashCode() {
-        Long tid = new Long(volumeId);
-        Long hid = new Long(dataStoreId);
-        return tid.hashCode() + hid.hashCode();
+        return Long.hashCode(volumeId) + Long.hashCode(dataStoreId);
     }
 
     public void setSize(long size) {
