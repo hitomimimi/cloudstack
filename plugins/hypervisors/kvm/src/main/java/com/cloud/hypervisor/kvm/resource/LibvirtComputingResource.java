@@ -51,6 +51,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -1757,13 +1758,15 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
         try {
             final Class<?> clazz = Class.forName(vifDriverClassName);
-            vifDriver = (VifDriver)clazz.newInstance();
+            vifDriver = (VifDriver)clazz.getDeclaredConstructor().newInstance();
             vifDriver.configure(params);
         } catch (final ClassNotFoundException e) {
             throw new ConfigurationException("Unable to find class for libvirt.vif.driver " + e);
-        } catch (final InstantiationException e) {
+        } catch (final InstantiationException | IllegalAccessException e) {
             throw new ConfigurationException("Unable to instantiate class for libvirt.vif.driver " + e);
-        } catch (final IllegalAccessException e) {
+        } catch (final NoSuchMethodException e) {
+            throw new ConfigurationException("No default constructor found for libvirt.vif.driver " + e);
+        } catch (final InvocationTargetException e) {
             throw new ConfigurationException("Unable to instantiate class for libvirt.vif.driver " + e);
         }
         return vifDriver;
