@@ -425,8 +425,7 @@ public class VmwareStorageProcessor implements StorageProcessor {
 
             VirtualDeviceBackingInfo virtualDeviceBackingInfo = virtualDisk.getBacking();
 
-            while (virtualDeviceBackingInfo instanceof VirtualDiskFlatVer2BackingInfo) {
-                VirtualDiskFlatVer2BackingInfo backingInfo = (VirtualDiskFlatVer2BackingInfo)virtualDeviceBackingInfo;
+            while (virtualDeviceBackingInfo instanceof VirtualDiskFlatVer2BackingInfo backingInfo) {
 
                 backingFiles.add(backingInfo.getFileName());
 
@@ -578,11 +577,9 @@ public class VmwareStorageProcessor implements StorageProcessor {
         TemplateObjectTO template = (TemplateObjectTO)srcData;
         DataStoreTO srcStore = srcData.getDataStore();
 
-        if (!(srcStore instanceof NfsTO)) {
+        if (!(srcStore instanceof NfsTO nfsImageStore)) {
             return new CopyCmdAnswer("unsupported protocol");
         }
-
-        NfsTO nfsImageStore = (NfsTO)srcStore;
         DataTO destData = cmd.getDestTO();
         DataStoreTO destStore = destData.getDataStore();
         DataStoreTO primaryStore = destStore;
@@ -602,8 +599,7 @@ public class VmwareStorageProcessor implements StorageProcessor {
         String chapTargetUsername = null;
         String chapTargetSecret = null;
 
-        if (destStore instanceof PrimaryDataStoreTO) {
-            PrimaryDataStoreTO destPrimaryDataStoreTo = (PrimaryDataStoreTO)destStore;
+        if (destStore instanceof PrimaryDataStoreTO destPrimaryDataStoreTo) {
 
             Map<String, String> details = destPrimaryDataStoreTo.getDetails();
 
@@ -717,7 +713,7 @@ public class VmwareStorageProcessor implements StorageProcessor {
             }
 
             newTemplate.setDeployAsIsConfiguration(configurationId);
-            newTemplate.setSize((vmInfo != null)? vmInfo.second() : new Long(0));
+            newTemplate.setSize((vmInfo != null)? vmInfo.second() : 0L);
 
             return new CopyCmdAnswer(newTemplate);
         } catch (Throwable e) {
@@ -2732,8 +2728,7 @@ public class VmwareStorageProcessor implements StorageProcessor {
             HostStorageSystemMO hostStorageSystem = host.getHostStorageSystemMO();
 
             for (HostHostBusAdapter hba : hostStorageSystem.getStorageDeviceInfo().getHostBusAdapter()) {
-                if (hba instanceof HostInternetScsiHba) {
-                    HostInternetScsiHba hostInternetScsiHba = (HostInternetScsiHba)hba;
+                if (hba instanceof HostInternetScsiHba hostInternetScsiHba) {
 
                     if (hostInternetScsiHba.isIsSoftwareBased()) {
                         List<HostInternetScsiHbaSendTarget> sendTargets = hostInternetScsiHba.getConfiguredSendTarget();
@@ -3319,7 +3314,7 @@ public class VmwareStorageProcessor implements StorageProcessor {
             boolean iScsiHbaConfigured = false;
 
             for (HostHostBusAdapter hba : hostStorageSystem.getStorageDeviceInfo().getHostBusAdapter()) {
-                if (hba instanceof HostInternetScsiHba && ((HostInternetScsiHba)hba).isIsSoftwareBased()) {
+                if (hba instanceof HostInternetScsiHba hostInternetScsiHba && hostInternetScsiHba.isIsSoftwareBased()) {
                     iScsiHbaConfigured = true;
 
                     final String iScsiHbaDevice = hba.getDevice();
@@ -3386,7 +3381,7 @@ public class VmwareStorageProcessor implements StorageProcessor {
             boolean iScsiHbaConfigured = false;
 
             for (HostHostBusAdapter hba : hostStorageSystem.getStorageDeviceInfo().getHostBusAdapter()) {
-                if (hba instanceof HostInternetScsiHba && ((HostInternetScsiHba)hba).isIsSoftwareBased()) {
+                if (hba instanceof HostInternetScsiHba hostInternetScsiHba && hostInternetScsiHba.isIsSoftwareBased()) {
                     iScsiHbaConfigured = true;
 
                     final String iScsiHbaDevice = hba.getDevice();
@@ -3509,8 +3504,8 @@ public class VmwareStorageProcessor implements StorageProcessor {
         }
 
         for (HostHostBusAdapter hba : hostStorageSystem.getStorageDeviceInfo().getHostBusAdapter()) {
-            if (hba instanceof HostInternetScsiHba && ((HostInternetScsiHba)hba).isIsSoftwareBased()) {
-                List<HostInternetScsiHbaStaticTarget> lstTargets = ((HostInternetScsiHba)hba).getConfiguredStaticTarget();
+            if (hba instanceof HostInternetScsiHba hostInternetScsiHba && hostInternetScsiHba.isIsSoftwareBased()) {
+                List<HostInternetScsiHbaStaticTarget> lstTargets = hostInternetScsiHba.getConfiguredStaticTarget();
 
                 if (lstTargets != null) {
                     for (HostInternetScsiHbaStaticTarget target : lstTargets) {
@@ -3568,8 +3563,7 @@ public class VmwareStorageProcessor implements StorageProcessor {
 
         if (virtualDisks != null) {
             for (VirtualDisk virtualDisk : virtualDisks) {
-                if (virtualDisk.getBacking() instanceof VirtualDiskFlatVer2BackingInfo) {
-                    VirtualDiskFlatVer2BackingInfo backingInfo = (VirtualDiskFlatVer2BackingInfo)virtualDisk.getBacking();
+                if (virtualDisk.getBacking() instanceof VirtualDiskFlatVer2BackingInfo backingInfo) {
                     String path = backingInfo.getFileName();
 
                     String search = "[-";

@@ -935,8 +935,7 @@ public class VmwareManagerImpl extends ManagerBase implements VmwareManager, Vmw
     private void updateClusterNativeHAState(Host host, StartupCommand cmd) {
         ClusterVO cluster = clusterDao.findById(host.getClusterId());
         if (cluster.getClusterType() == ClusterType.ExternalManaged) {
-            if (cmd instanceof StartupRoutingCommand) {
-                StartupRoutingCommand hostStartupCmd = (StartupRoutingCommand)cmd;
+            if (cmd instanceof StartupRoutingCommand hostStartupCmd) {
                 Map<String, String> details = hostStartupCmd.getHostDetails();
 
                 if (details.get("NativeHA") != null && details.get("NativeHA").equalsIgnoreCase("true")) {
