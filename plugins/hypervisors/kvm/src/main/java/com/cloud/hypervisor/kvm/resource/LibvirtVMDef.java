@@ -2174,9 +2174,9 @@ public class LibvirtVMDef {
             T field = (T) customNodes.get(fieldClass.getName());
             if (field == null) {
                 try {
-                    field = fieldClass.newInstance();
+                    field = fieldClass.getDeclaredConstructor().newInstance();
                     customNodes.put(field.getClass().getName(), field);
-                } catch (InstantiationException | IllegalAccessException e) {
+                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | java.lang.reflect.InvocationTargetException e) {
                     LOGGER.debug("No default constructor available in class " + fieldClass.getName() + ", ignoring exception", e);
                 }
             }

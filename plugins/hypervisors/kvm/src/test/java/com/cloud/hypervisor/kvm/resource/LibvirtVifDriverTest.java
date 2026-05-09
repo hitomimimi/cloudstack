@@ -69,13 +69,13 @@ public class LibvirtVifDriverTest {
         res = spy(resReal);
 
         try {
-            bridgeVifDriver = (VifDriver)Class.forName(LibvirtComputingResource.DEFAULT_BRIDGE_VIF_DRIVER_CLASS_NAME).newInstance();
-            ovsVifDriver = (VifDriver)Class.forName(LibvirtComputingResource.DEFAULT_OVS_VIF_DRIVER_CLASS_NAME).newInstance();
-            tungstenVifDriver = (VifDriver)Class.forName(LibvirtComputingResource.DEFAULT_TUNGSTEN_VIF_DRIVER_CLASS_NAME).newInstance();
+            bridgeVifDriver = (VifDriver)Class.forName(LibvirtComputingResource.DEFAULT_BRIDGE_VIF_DRIVER_CLASS_NAME).getDeclaredConstructor().newInstance();
+            ovsVifDriver = (VifDriver)Class.forName(LibvirtComputingResource.DEFAULT_OVS_VIF_DRIVER_CLASS_NAME).getDeclaredConstructor().newInstance();
+            tungstenVifDriver = (VifDriver)Class.forName(LibvirtComputingResource.DEFAULT_TUNGSTEN_VIF_DRIVER_CLASS_NAME).getDeclaredConstructor().newInstance();
 
             // Instantiating bridge vif driver again as the fake vif driver
             // is good enough, as this is a separate instance
-            fakeVifDriver = (VifDriver)Class.forName(LibvirtComputingResource.DEFAULT_BRIDGE_VIF_DRIVER_CLASS_NAME).newInstance();
+            fakeVifDriver = (VifDriver)Class.forName(LibvirtComputingResource.DEFAULT_BRIDGE_VIF_DRIVER_CLASS_NAME).getDeclaredConstructor().newInstance();
 
             doReturn(bridgeVifDriver).when(res).getVifDriverClass(eq(LibvirtComputingResource.DEFAULT_BRIDGE_VIF_DRIVER_CLASS_NAME), anyMap());
             doReturn(ovsVifDriver).when(res).getVifDriverClass(eq(LibvirtComputingResource.DEFAULT_OVS_VIF_DRIVER_CLASS_NAME), anyMap());

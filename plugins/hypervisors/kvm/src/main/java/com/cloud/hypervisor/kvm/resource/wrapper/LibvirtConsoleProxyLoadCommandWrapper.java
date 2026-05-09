@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -44,7 +45,7 @@ public abstract class LibvirtConsoleProxyLoadCommandWrapper<T extends Command, A
 
         boolean success = true;
         try {
-            final URL url = new URL(sb.toString());
+            final URL url = URI.create(sb.toString()).toURL();
             final URLConnection conn = url.openConnection();
 
             final InputStream is = conn.getInputStream();
