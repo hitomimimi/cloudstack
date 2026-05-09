@@ -30,7 +30,7 @@
     <dependencies>
         <dependency>
             <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
+            <artifactId>cglib</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
