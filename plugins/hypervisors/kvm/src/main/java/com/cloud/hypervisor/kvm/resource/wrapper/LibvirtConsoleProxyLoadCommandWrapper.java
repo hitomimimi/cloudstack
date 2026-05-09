@@ -70,6 +70,9 @@ public abstract class LibvirtConsoleProxyLoadCommandWrapper<T extends Command, A
         } catch (final IOException e) {
             logger.warn("Unable to open console proxy command port url, console proxy address : " + proxyManagementIp);
             success = false;
+        } catch (final IllegalArgumentException e) {
+            logger.warn("Invalid console proxy command port url, console proxy address : " + proxyManagementIp);
+            success = false;
         }
 
         return new ConsoleProxyLoadAnswer(cmd, proxyVmId, proxyVmName, success, result);
