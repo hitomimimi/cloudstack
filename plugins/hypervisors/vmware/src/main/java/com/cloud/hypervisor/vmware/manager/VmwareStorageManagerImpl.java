@@ -168,10 +168,11 @@ public class VmwareStorageManagerImpl implements VmwareStorageManager {
     @Override
     public String createOvaForTemplate(TemplateObjectTO template, int archiveTimeout) {
         DataStoreTO storeTO = template.getDataStore();
-        if (!(storeTO instanceof NfsTO nfsStore)) {
+        if (!(storeTO instanceof NfsTO)) {
             logger.debug("Can only handle NFS storage, while creating OVA from template");
             return null;
         }
+        NfsTO nfsStore = (NfsTO)storeTO;
         String secStorageUrl = nfsStore.getUrl();
         assert (secStorageUrl != null);
         String installPath = template.getPath();
@@ -202,10 +203,11 @@ public class VmwareStorageManagerImpl implements VmwareStorageManager {
     // Important! we need to sync file system before we can safely use tar to work around a linux kernel bug(or feature)
     public String createOvaForVolume(VolumeObjectTO volume, int archiveTimeout) {
         DataStoreTO storeTO = volume.getDataStore();
-        if (!(storeTO instanceof NfsTO nfsStore)) {
+        if (!(storeTO instanceof NfsTO)) {
             logger.debug("can only handle nfs storage, when create ova from volume");
             return null;
         }
+        NfsTO nfsStore = (NfsTO)storeTO;
         String secStorageUrl = nfsStore.getUrl();
         assert (secStorageUrl != null);
         //Note the volume path is volumes/accountId/volumeId/uuid/, the actual volume is uuid/uuid.vmdk
@@ -1152,9 +1154,10 @@ public class VmwareStorageManagerImpl implements VmwareStorageManager {
 
     private boolean isVolumeOnDatastoreCluster(VolumeObjectTO volumeObjectTO) {
         DataStoreTO dsTO = volumeObjectTO.getDataStore();
-        if (!(dsTO instanceof PrimaryDataStoreTO primaryDataStoreTO)) {
+        if (!(dsTO instanceof PrimaryDataStoreTO)) {
             return false;
         }
+        PrimaryDataStoreTO primaryDataStoreTO = (PrimaryDataStoreTO)dsTO;
         return Storage.StoragePoolType.DatastoreCluster.equals(primaryDataStoreTO.getPoolType()) ||
                 Storage.StoragePoolType.DatastoreCluster.equals(primaryDataStoreTO.getParentPoolType());
     }

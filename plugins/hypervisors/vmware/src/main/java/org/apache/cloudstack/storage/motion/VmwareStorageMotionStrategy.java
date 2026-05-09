@@ -153,8 +153,8 @@ public class VmwareStorageMotionStrategy implements DataMotionStrategy {
     }
 
     private VirtualMachine getVolumeVm(DataObject srcData) {
-        if (srcData instanceof VolumeInfo volumeInfo) {
-            return volumeInfo.getAttachedVM();
+        if (srcData instanceof VolumeInfo) {
+            return ((VolumeInfo)srcData).getAttachedVM();
         }
         VolumeVO volume = volDao.findById(srcData.getId());
         return volume.getInstanceId() == null ? null : instanceDao.findById(volume.getInstanceId());

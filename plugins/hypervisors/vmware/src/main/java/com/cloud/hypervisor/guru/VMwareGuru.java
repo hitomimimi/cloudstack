@@ -235,7 +235,8 @@ public class VMwareGuru extends HypervisorGuruBase implements HypervisorGuru, Co
         }
 
         boolean needDelegation = false;
-        if (cmd instanceof StorageSubSystemCommand c) {
+        if (cmd instanceof StorageSubSystemCommand) {
+            StorageSubSystemCommand c = (StorageSubSystemCommand)cmd;
             c.setExecuteInSequence(StorageManager.shouldExecuteInSequenceOnVmware());
         }
         if (cmd instanceof DownloadCommand) {
@@ -243,7 +244,8 @@ public class VMwareGuru extends HypervisorGuruBase implements HypervisorGuru, Co
         }
         //NOTE: the hostid can be a hypervisor host, or a ssvm agent. For copycommand, if it's for volume upload, the hypervisor
         //type is empty, so we need to check the format of volume at first.
-        if (cmd instanceof CopyCommand cpyCommand) {
+        if (cmd instanceof CopyCommand) {
+            CopyCommand cpyCommand = (CopyCommand)cmd;
             DataTO srcData = cpyCommand.getSrcTO();
             DataStoreTO srcStoreTO = srcData.getDataStore();
             DataTO destData = cpyCommand.getDestTO();
@@ -272,8 +274,8 @@ public class VMwareGuru extends HypervisorGuruBase implements HypervisorGuru, Co
             } else {
                 needDelegation = true;
             }
-        } else if (cmd instanceof CreateEntityDownloadURLCommand createEntityDownloadURLCommand) {
-            DataTO srcData = createEntityDownloadURLCommand.getData();
+        } else if (cmd instanceof CreateEntityDownloadURLCommand) {
+            DataTO srcData = ((CreateEntityDownloadURLCommand)cmd).getData();
             if ((HypervisorType.VMware == srcData.getHypervisorType())) {
                 needDelegation = true;
             }
@@ -974,11 +976,13 @@ public class VMwareGuru extends HypervisorGuruBase implements HypervisorGuru, Co
         VirtualEthernetCard nic = (VirtualEthernetCard)nicDevice;
         String macAddress = nic.getMacAddress();
         VirtualDeviceBackingInfo backing = nic.getBacking();
-        if (backing instanceof VirtualEthernetCardNetworkBackingInfo backingInfo) {
+        if (backing instanceof VirtualEthernetCardNetworkBackingInfo) {
+            VirtualEthernetCardNetworkBackingInfo backingInfo = (VirtualEthernetCardNetworkBackingInfo) backing;
             String deviceName = backingInfo.getDeviceName();
             String vlan = getVlanFromDeviceName(deviceName);
             return new Pair<>(macAddress, vlan);
-        } else if (backing instanceof VirtualEthernetCardDistributedVirtualPortBackingInfo portInfo) {
+        } else if (backing instanceof VirtualEthernetCardDistributedVirtualPortBackingInfo) {
+            VirtualEthernetCardDistributedVirtualPortBackingInfo portInfo = (VirtualEthernetCardDistributedVirtualPortBackingInfo) backing;
             DistributedVirtualSwitchPortConnection port = portInfo.getPort();
             String portKey = port.getPortKey();
             String portGroupKey = port.getPortgroupKey();
@@ -1559,9 +1563,11 @@ public class VMwareGuru extends HypervisorGuruBase implements HypervisorGuru, Co
 
     private String getDataStoreUrlForTemplate(DataStoreTO templateLocation) {
         String dataStoreUrl = null;
-        if (templateLocation instanceof NfsTO nfsStore) {
+        if (templateLocation instanceof NfsTO) {
+            NfsTO nfsStore = (NfsTO) templateLocation;
             dataStoreUrl = nfsStore.getUrl();
-        } else if (templateLocation instanceof PrimaryDataStoreTO primaryDataStoreTO) {
+        } else if (templateLocation instanceof PrimaryDataStoreTO) {
+            PrimaryDataStoreTO primaryDataStoreTO = (PrimaryDataStoreTO) templateLocation;
             if (primaryDataStoreTO.getPoolType().equals(Storage.StoragePoolType.NetworkFilesystem)) {
                 String psHost = primaryDataStoreTO.getHost();
                 String psPath = primaryDataStoreTO.getPath();

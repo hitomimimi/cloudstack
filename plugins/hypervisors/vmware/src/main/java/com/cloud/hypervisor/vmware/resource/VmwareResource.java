@@ -756,11 +756,11 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
     protected void checkStorageProcessorAndHandlerNfsVersionAttribute(StorageSubSystemCommand cmd) {
         if (storageNfsVersion != null)
             return;
-        if (cmd instanceof CopyCommand copyCommand) {
+        if (cmd instanceof CopyCommand) {
             EnumMap<VmwareStorageProcessorConfigurableFields, Object> params = new EnumMap<>(
                     VmwareStorageProcessorConfigurableFields.class);
-            examineStorageSubSystemCommandNfsVersion(copyCommand, params);
-            params = examineStorageSubSystemCommandFullCloneFlagForVmware(copyCommand, params);
+            examineStorageSubSystemCommandNfsVersion((CopyCommand) cmd, params);
+            params = examineStorageSubSystemCommandFullCloneFlagForVmware((CopyCommand) cmd, params);
             reconfigureProcessorByHandler(params);
         }
     }
@@ -793,7 +793,8 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
         HypervisorType hypervisor = cmd.getDestTO().getHypervisorType();
         if (hypervisor != null && hypervisor.equals(HypervisorType.VMware)) {
             DataStoreTO destDataStore = cmd.getDestTO().getDataStore();
-            if (destDataStore instanceof PrimaryDataStoreTO dest) {
+            if (destDataStore instanceof PrimaryDataStoreTO) {
+                PrimaryDataStoreTO dest = (PrimaryDataStoreTO) destDataStore;
                 if (dest.isFullCloneFlag() != null) {
                     paramsCopy.put(VmwareStorageProcessorConfigurableFields.FULL_CLONE_FLAG, dest.isFullCloneFlag());
                 }
@@ -815,8 +816,8 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
         DataStoreTO srcDataStore = cmd.getSrcTO().getDataStore();
         boolean nfsVersionFound = false;
 
-        if (srcDataStore instanceof NfsTO nfsTO) {
-            nfsVersionFound = getStorageNfsVersionFromNfsTO(nfsTO);
+        if (srcDataStore instanceof NfsTO) {
+            nfsVersionFound = getStorageNfsVersionFromNfsTO((NfsTO) srcDataStore);
         }
 
         if (nfsVersionFound) {
@@ -1250,24 +1251,24 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
         cmd.setRouterAccessIp(getRouterSshControlIp(cmd));
         assert cmd.getRouterAccessIp() != null;
 
-        if (cmd instanceof IpAssocVpcCommand ipAssocVpcCommand) {
-            return prepareNetworkElementCommand(ipAssocVpcCommand);
-        } else if (cmd instanceof IpAssocCommand ipAssocCommand) {
-            return prepareNetworkElementCommand(ipAssocCommand);
-        } else if (cmd instanceof SetSourceNatCommand setSourceNatCommand) {
-            return prepareNetworkElementCommand(setSourceNatCommand);
-        } else if (cmd instanceof SetupGuestNetworkCommand setupGuestNetworkCommand) {
-            return prepareNetworkElementCommand(setupGuestNetworkCommand);
-        } else if (cmd instanceof SetNetworkACLCommand setNetworkACLCommand) {
-            return prepareNetworkElementCommand(setNetworkACLCommand);
+        if (cmd instanceof IpAssocVpcCommand) {
+            return prepareNetworkElementCommand((IpAssocVpcCommand) cmd);
+        } else if (cmd instanceof IpAssocCommand) {
+            return prepareNetworkElementCommand((IpAssocCommand) cmd);
+        } else if (cmd instanceof SetSourceNatCommand) {
+            return prepareNetworkElementCommand((SetSourceNatCommand) cmd);
+        } else if (cmd instanceof SetupGuestNetworkCommand) {
+            return prepareNetworkElementCommand((SetupGuestNetworkCommand) cmd);
+        } else if (cmd instanceof SetNetworkACLCommand) {
+            return prepareNetworkElementCommand((SetNetworkACLCommand) cmd);
         }
         return new ExecutionResult(true, null);
     }
 
     @Override
     public ExecutionResult cleanupCommand(NetworkElementCommand cmd) {
-        if (cmd instanceof IpAssocCommand ipAssocCommand && !(cmd instanceof IpAssocVpcCommand)) {
-            return cleanupNetworkElementCommand(ipAssocCommand);
+        if (cmd instanceof IpAssocCommand && !(cmd instanceof IpAssocVpcCommand)) {
+            return cleanupNetworkElementCommand((IpAssocCommand)cmd);
         }
         return new ExecutionResult(true, null);
     }
@@ -1334,8 +1335,8 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
 
         VirtualDevice[] nics = vmMo.getNicDevices();
         for (VirtualDevice nic : nics) {
-            if (nic instanceof VirtualEthernetCard virtualEthernetCard) {
-                if (virtualEthernetCard.getMacAddress().equals(mac))
+            if (nic instanceof VirtualEthernetCard) {
+                if (((VirtualEthernetCard) nic).getMacAddress().equals(mac))
                     return nic;
             }
         }
@@ -1444,8 +1445,8 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
         VirtualMachineMO vmMo = hyperHost.findVmOnHyperHost(vmName);
 
         if (vmMo == null) {
-            if (hyperHost instanceof HostMO hostMO) {
-                ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), hostMO.getParentMor());
+            if (hyperHost instanceof HostMO) {
+                ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), ((HostMO) hyperHost).getParentMor());
                 vmMo = clusterMo.findVmOnHyperHost(vmName);
             }
         }
@@ -1507,8 +1508,8 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
             VirtualMachineMO vmMo = hyperHost.findVmOnHyperHost(vmName);
 
             if (vmMo == null) {
-                if (hyperHost instanceof HostMO hostMO) {
-                    ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), hostMO.getParentMor());
+                if (hyperHost instanceof HostMO) {
+                    ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), ((HostMO) hyperHost).getParentMor());
                     vmMo = clusterMo.findVmOnHyperHost(vmName);
                 }
             }
@@ -1573,8 +1574,8 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
             VirtualMachineMO vmMo = hyperHost.findVmOnHyperHost(vmName);
 
             if (vmMo == null) {
-                if (hyperHost instanceof HostMO hostMO) {
-                    ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), hostMO.getParentMor());
+                if (hyperHost instanceof HostMO) {
+                    ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), ((HostMO) hyperHost).getParentMor());
                     vmMo = clusterMo.findVmOnHyperHost(vmName);
                 }
             }
@@ -1689,8 +1690,8 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
             // command may sometimes be redirect to a wrong host, we relax
             // the check and will try to find it within cluster
             if (vmMo == null) {
-                if (hyperHost instanceof HostMO hostMO) {
-                    ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), hostMO.getParentMor());
+                if (hyperHost instanceof HostMO) {
+                    ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), ((HostMO) hyperHost).getParentMor());
                     vmMo = clusterMo.findVmOnHyperHost(routerName);
                 }
             }
@@ -1765,7 +1766,7 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
             // command may sometimes be redirected to a wrong host, we relax
             // the check and will try to find it within datacenter
             if (vmMo == null) {
-                if (hyperHost instanceof HostMO hostMO) {
+                if (hyperHost instanceof HostMO) {
                     final DatacenterMO dcMo = new DatacenterMO(context, hyperHost.getHyperHostDatacenter());
                     vmMo = dcMo.findVm(routerName);
                 }
@@ -6207,7 +6208,8 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
 
         try {
             VmwareHypervisorHost hyperHost = getHyperHost(context);
-            if (hyperHost instanceof HostMO hostMo) {
+            if (hyperHost instanceof HostMO) {
+                HostMO hostMo = (HostMO) hyperHost;
 
                 List<Pair<ManagedObjectReference, String>> dsList = hostMo.getLocalDatastoreOnHost();
                 for (Pair<ManagedObjectReference, String> dsPair : dsList) {
@@ -6289,14 +6291,16 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
         try {
             VmwareHypervisorHost hyperHost = getHyperHost(getServiceContext());
 
-            if (hyperHost instanceof HostMO host) {
+            if (hyperHost instanceof HostMO) {
+                HostMO host = (HostMO) hyperHost;
                 HostStorageSystemMO hostStorageSystem = host.getHostStorageSystemMO();
 
                 for (HostHostBusAdapter hba : hostStorageSystem.getStorageDeviceInfo().getHostBusAdapter()) {
-                    if (hba instanceof HostInternetScsiHba hostInternetScsiHba) {
+                    if (hba instanceof HostInternetScsiHba) {
+                        HostInternetScsiHba hostInternetScsiHba = (HostInternetScsiHba) hba;
 
                         if (hostInternetScsiHba.isIsSoftwareBased()) {
-                            return hostInternetScsiHba.getIScsiName();
+                            return ((HostInternetScsiHba) hba).getIScsiName();
                         }
                     }
                 }
@@ -7761,8 +7765,8 @@ public class VmwareResource extends ServerResourceBase implements StoragePoolRes
             VirtualMachineMO vmMo = hyperHost.findVmOnHyperHost(vmName);
 
             if (vmMo == null) {
-                if (hyperHost instanceof HostMO hostMO) {
-                    ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), hostMO.getParentMor());
+                if (hyperHost instanceof HostMO) {
+                    ClusterMO clusterMo = new ClusterMO(hyperHost.getContext(), ((HostMO) hyperHost).getParentMor());
                     vmMo = clusterMo.findVmOnHyperHost(vmName);
                 }
             }
