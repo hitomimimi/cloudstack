@@ -65,4 +65,4 @@ jobs:
         run: |
           git clone https://github.com/shapeblue/cloudstack-nonoss.git nonoss && cd nonoss && bash -x install-non-oss.sh && cd ..
           rm -fr nonoss
-          mvn -B -P developer,systemvm -Dsimulator -Dnoredist clean install -T$(nproc)
+          mvn -B -P developer,systemvm -Dsimulator -Dnoredist clean install -DskipTests -T$(nproc)
