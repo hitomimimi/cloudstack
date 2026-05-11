@@ -39,6 +39,6 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: Compile Check
+      - name: Build Check
         run: |
-          mvn -B -P developer,systemvm -Dsimulator -DskipTests compile -T$(nproc)
+          mvn -B -P developer,systemvm -Dsimulator -DskipTests install -T$(nproc)
