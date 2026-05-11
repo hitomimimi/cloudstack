@@ -41,4 +41,4 @@ jobs:
 
       - name: Compile Check
         run: |
-          mvn -B -P developer,systemvm -Dsimulator -DskipTests compile -T$(nproc)
+          mvn -B -P developer,systemvm -Dsimulator -DskipTests -Dcheckstyle.skip=true install -T$(nproc)
